@@ -122,6 +122,7 @@ module.exports = (robot) ->
       msg.send m + '.'
 
   robot.hear /reload quotes$/i, (msg) ->
+    msg.send "Reloading the quotes now"
     reloadThen (err) ->
       if err?
         msg.send "Oh, snap! Something blew up."
