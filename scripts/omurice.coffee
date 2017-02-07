@@ -84,7 +84,7 @@ module.exports = (robot) ->
   # Perform the initial load.
   reloadThen ->
 
-  robot.respond /quote(\s.*)?$/i, (msg) ->
+  robot.hear /quote(\s.*)?$/i, (msg) ->
     return unless isLoaded(msg)
 
     potential = quotesMatching queryFrom msg
@@ -95,7 +95,7 @@ module.exports = (robot) ->
     else
       msg.send "That wasn't notable enough to quote. Try harder."
 
-  robot.respond /quoteabout\s+@?(\S+)(\s+.*)?$/i, (msg) ->
+  robot.hear /quoteabout\s+@?(\S+)(\s+.*)?$/i, (msg) ->
     return unless isLoaded(msg)
 
     mentions = msg.match[1].split('+')
@@ -121,7 +121,7 @@ module.exports = (robot) ->
 
       msg.send m + '.'
 
-  robot.respond /reload quotes$/i, (msg) ->
+  robot.hear /reload quotes$/i, (msg) ->
     reloadThen (err) ->
       if err?
         msg.send "Oh, snap! Something blew up."
