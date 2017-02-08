@@ -93,7 +93,7 @@ module.exports = (robot) ->
 
   robot.hear /.*/i, (msg) ->
     parsedSentence = queryFrom msg
-    if parsedSentence.length <= 7
+    if parsedSentence.length <= 3
       foundTags = _.intersection(parsedSentence, tags);
       if foundTags.length > 0
         robot.http(imgUrl + foundTags[0])
