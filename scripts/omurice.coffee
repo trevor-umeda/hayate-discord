@@ -102,9 +102,8 @@ module.exports = (robot) ->
         robot.logger.info "#{foundTags[0]}"
         robot.http(imgUrl + foundTags[0])
         .get() (err, res, body) ->
-          if res.statusCode is 200
-            coolImage = JSON.parse(body)
-            robot.logger.info "#{coolImage}"
+          if res.statusCode is 200            
+            robot.logger.info "#{body}"
 
           else
             tags = []
