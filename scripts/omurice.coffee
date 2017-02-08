@@ -53,7 +53,7 @@ module.exports = (robot) ->
       msg.reply "Just a moment, the tags aren't loaded yet."
       false
 
-  queryFrom = (msg, matchNumber = 1) ->
+  queryFrom = (msg, matchNumber = 0) ->
     if msg.match[matchNumber]?
       words = msg.match[matchNumber].trim().split /\s+/
     else
@@ -92,6 +92,8 @@ module.exports = (robot) ->
 
   robot.hear /.*/i, (msg) ->
     robot.logger.info "#{msg}"
+    parsedSentence = queryFrom msg
+    robot.logger.info "#{parsedSentence}"
 
   robot.hear /quote(\s.*)?$/i, (msg) ->
     return unless isLoaded(msg)
