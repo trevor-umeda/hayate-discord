@@ -92,19 +92,15 @@ module.exports = (robot) ->
   reloadThen ->
 
   robot.hear /.*/i, (msg) ->
-    robot.logger.info "#{msg}"
     parsedSentence = queryFrom msg
-    robot.logger.info "#{parsedSentence}"
-
     if parsedSentence.length <= 7
       foundTags = _.intersection(parsedSentence, tags);
       if foundTags.length > 0
-        robot.logger.info "#{foundTags[0]}"
         robot.http(imgUrl + foundTags[0])
         .get() (err, res, body) ->
-          if res.statusCode is 200            
+          if res.statusCode is 200
             robot.logger.info "#{body}"
-
+            msg.send "#{body}"
           else
             tags = []
 
