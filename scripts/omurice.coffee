@@ -32,6 +32,7 @@ module.exports = (robot) ->
 
   # Read configuration from the environment.
   tagUrl = "https://vast-castle-1062.herokuapp.com/tags"
+  imgUrl = "http://vast-castle-1062.herokuapp.com/image?tag="
 
   reloadThen = (callback) ->
     unless tagUrl?
@@ -99,6 +100,15 @@ module.exports = (robot) ->
       foundTags = _.intersection(parsedSentence, tags);
       if foundTags.length > 0
         robot.logger.info "#{foundTags[0]}"
+        robot.http(imgUrl + foundTags[0])
+        .get() (err, res, body) ->
+          if res.statusCode is 200
+            coolImage = JSON.parse(body)
+            robot.logger.info "#{coolImage}"
+
+          else
+            tags = []
+
 #      if (body.find(word) >= 0 and ((len(words)==1 and (word in words)) or ( len(words) > 1 and (body.find(word+" ")==0) or (" "+word+" " in body) or (body.find(" "+word)==(wordsLength-len(word)-1))))):
 #                    command_name = "omu"
 #                    command_args = [word.replace (" ", "%20")]
