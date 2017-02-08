@@ -33,7 +33,7 @@ module.exports = (robot) ->
   # Read configuration from the environment.
   tagUrl = "https://vast-castle-1062.herokuapp.com/tags"
 
-  reloadThen = (msg, callback) ->
+  reloadThen = (callback) ->
     unless tagUrl?
       tags = []
       return
@@ -42,9 +42,8 @@ module.exports = (robot) ->
     .get() (err, res, body) ->
       if res.statusCode is 200
         tags = JSON.parse(body)
-        msg.send "got #{tags}"
       else
-        msg.send "Something went wrong!"
+        tags = []
       callback(null)
 
   isLoaded = (msg) ->
@@ -123,7 +122,7 @@ module.exports = (robot) ->
 
   robot.hear /reload quotes$/i, (msg) ->
     msg.send "Reloading the tagsnow"
-    reloadThen (msg, err) ->
+    reloadThen (err) ->
       if err?
         msg.send "Oh, snap! Something blew up."
         msg.send err.stack
