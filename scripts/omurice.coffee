@@ -47,13 +47,20 @@ module.exports = (robot) ->
       callback(null)
 
   isLoaded = (msg) ->
-    if quotes?
+    if tags?
       true
     else
-      msg.reply "Just a moment, the tagsaren't loaded yet."
+      msg.reply "Just a moment, the tags aren't loaded yet."
       false
 
-  quotesMatching = (query = [], speakers = [], mentions = []) ->
+  queryFrom = (msg, matchNumber = 1) ->
+    if msg.match[matchNumber]?
+      words = msg.match[matchNumber].trim().split /\s+/
+    else
+      words = ['']
+    _.filter words, (part) -> part.length > 0
+
+  tagsMatching = (query = [], speakers = [], mentions = []) ->
     results = quotes
 
     if speakers.length > 0 or mentions.length > 0
@@ -83,10 +90,13 @@ module.exports = (robot) ->
   # Perform the initial load.
   reloadThen ->
 
+  robot.hear /.*/i, (msg) ->
+    robot.logger.info "#{msg}"
+
   robot.hear /quote(\s.*)?$/i, (msg) ->
     return unless isLoaded(msg)
 
-    potential = quotesMatching queryFrom msg
+    potential = tagsMatching queryFrom msg
 
     if potential.length > 0
       chosen = _.random potential.length - 1
@@ -100,7 +110,7 @@ module.exports = (robot) ->
     mentions = msg.match[1].split('+')
     query = queryFrom msg, 2
 
-    potential = quotesMatching query, null, mentions
+    potential = tagsMatching query, null, mentions
 
     if potential.length > 0
       chosen = _.random potential.length - 1
@@ -120,11 +130,10 @@ module.exports = (robot) ->
 
       msg.send m + '.'
 
-  robot.hear /reload quotes$/i, (msg) ->
-    msg.send "Reloading the tagsnow"
+  robot.hear /reload tags$/i, (msg) ->
     reloadThen (err) ->
       if err?
         msg.send "Oh, snap! Something blew up."
         msg.send err.stack
       else
-        msg.send "#{tags.length} tagsloaded successfully."
+        msg.send "#{tags.length} tags loaded successfully."
