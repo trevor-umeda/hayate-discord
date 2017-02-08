@@ -38,7 +38,7 @@ module.exports = (robot) ->
       tags = []
       return
 
-    msg.http(tagUrl)
+    robot.http(tagUrl)
     .get() (err, res, body) ->
       if res.statusCode is 200
         tags = JSON.parse(body)
