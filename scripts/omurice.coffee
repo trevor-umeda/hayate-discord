@@ -1,5 +1,5 @@
 # Description:
-#   Retrieve embarassing quotes from your co-workers out of context!
+#   Retrieve embarassing tagsfrom your co-workers out of context!
 #
 # Dependencies:
 #   underscore, moment.js
@@ -12,8 +12,8 @@
 #   hubot quote <query> - Retrieve a random quote that contains each word of <query>.
 #   hubot quoteby <username> [<query>] - Retrieve a random quote including a line spoken by <username>.
 #   hubot quoteabout <username> [<query>] - Retrieve a random quote including a line addressing <username>.
-#   hubot howmany <query> - Return the number of quotes that contain each word of <query>.
-#   hubot reload quotes - Reload the quote file.
+#   hubot howmany <query> - Return the number of tagsthat contain each word of <query>.
+#   hubot reload tags- Reload the quote file.
 #   hubot quotestats - Show who's been quoted the most!
 #   hubot verbatim quote: [...] - Enter a quote into the quote file exactly as given.
 #   hubot slackapp quote: [...] - Parse a quote from the Slack app's paste format.
@@ -28,30 +28,30 @@ _ = require 'underscore'
 module.exports = (robot) ->
 
   # Global state.
-  quotes = null
+  tags = null
 
   # Read configuration from the environment.
-  quotefilePath = process.env.HUBOT_QUOTEFILE_PATH
+  tagUrl = "https://vast-castle-1062.herokuapp.com/tags"
 
   reloadThen = (callback) ->
-    unless quotefilePath?
-      quotes = []
+    unless tagUrl?
+      tags = []
       return
 
-    fs.readFile quotefilePath, encoding: 'utf-8', (err, data) ->
-      if err?
-        callback(err)
-        return
-
-      quotes = data.split /\n\n/
-      quotes = _.filter quotes, (quote) -> quote.length > 1
+    msg.http(tagUrl)
+    .get() (err, res, body) ->
+      if res.statusCode is 200
+        tags = JSON.parse(body)
+        msg.send "got #{tags}"
+      else
+        msg.send "Something went wrong!"
       callback(null)
 
   isLoaded = (msg) ->
     if quotes?
       true
     else
-      msg.reply "Just a moment, the quotes aren't loaded yet."
+      msg.reply "Just a moment, the tagsaren't loaded yet."
       false
 
   quotesMatching = (query = [], speakers = [], mentions = []) ->
@@ -107,7 +107,7 @@ module.exports = (robot) ->
       chosen = _.random potential.length - 1
       msg.send potential[chosen]
     else
-      m = "No quotes about "
+      m = "No tagsabout "
 
       if mentions.length is 1
         m += mentions[0]
@@ -122,10 +122,10 @@ module.exports = (robot) ->
       msg.send m + '.'
 
   robot.hear /reload quotes$/i, (msg) ->
-    msg.send "Reloading the quotes now"
+    msg.send "Reloading the tagsnow"
     reloadThen (err) ->
       if err?
         msg.send "Oh, snap! Something blew up."
         msg.send err.stack
       else
-        msg.send "#{quotes.length} quotes loaded successfully."
+        msg.send "#{tags.length} tagsloaded successfully."
