@@ -95,6 +95,15 @@ module.exports = (robot) ->
     parsedSentence = queryFrom msg
     robot.logger.info "#{parsedSentence}"
 
+    if parsedSentence.length <= 7
+      foundTags = _.intersection(parsedSentence, tags);
+      if foundTags.length > 0
+        robot.logger.info "#{foundTags[0]}"
+#      if (body.find(word) >= 0 and ((len(words)==1 and (word in words)) or ( len(words) > 1 and (body.find(word+" ")==0) or (" "+word+" " in body) or (body.find(" "+word)==(wordsLength-len(word)-1))))):
+#                    command_name = "omu"
+#                    command_args = [word.replace (" ", "%20")]
+#                    self.run_commands(command_name,command_args,msg,status,'true')
+
   robot.hear /quote(\s.*)?$/i, (msg) ->
     return unless isLoaded(msg)
 
