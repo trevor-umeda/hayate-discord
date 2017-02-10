@@ -117,7 +117,7 @@ module.exports = (robot) ->
                   #msg.send "#{body}"
                 else
                   tags = []
-                break
+              break
 
 #      if (body.find(word) >= 0 and ((len(words)==1 and (word in words)) or ( len(words) > 1 and (body.find(word+" ")==0) or (" "+word+" " in body) or (body.find(" "+word)==(wordsLength-len(word)-1))))):
 #                    command_name = "omu"
