@@ -107,8 +107,8 @@ module.exports = (robot) ->
               tags = []
       else if (parsedSentence.length > 1)
         for tag in tags
-          robot.logger.info "TAG_SEARCHING #{msg.match[matchNumber].trim().indexOf(tag)}"
-          if(msg.match[matchNumber].trim().indexOf(tag) >= 0)
+          robot.logger.info "TAG_SEARCHING #{msg.match[0].trim().indexOf(tag)}"
+          if(msg.match[0].trim().indexOf(tag) >= 0)
             formattedTag = tag.replace(/%20/g, "%20")
             robot.logger.info "TAG_FOUND #{formattedTag}"
             robot.http(imgUrl + tag)
