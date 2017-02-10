@@ -95,8 +95,7 @@ module.exports = (robot) ->
     parsedSentence = queryFrom msg
 
     if parsedSentence.length <= 5
-
-      if (parsedSentence.length == 1)
+      if (parsedSentence.length == 1)        
         foundTags = _.intersection(parsedSentence, tags);
         if foundTags.length > 0
           robot.http(imgUrl + foundTags[0])
@@ -107,6 +106,7 @@ module.exports = (robot) ->
             else
               tags = []
         else if (parsedSentence.length > 1)
+          robot.logger.info "PARSED_SENTENCE_LENGTH - #{parsedSentence.length}"
           for tag in tags
             robot.logger.info "TAG_SEARCHING #{msg.indexOf(tag)}"
             if(msg.indexOf(tag) >= 0)
