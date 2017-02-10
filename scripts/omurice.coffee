@@ -95,7 +95,7 @@ module.exports = (robot) ->
     parsedSentence = queryFrom msg
 
     if parsedSentence.length <= 5
-      if (parsedSentence.length == 1)        
+      if (parsedSentence.length == 1)
         foundTags = _.intersection(parsedSentence, tags);
         if foundTags.length > 0
           robot.http(imgUrl + foundTags[0])
@@ -105,21 +105,20 @@ module.exports = (robot) ->
               msg.send "#{body}"
             else
               tags = []
-        else if (parsedSentence.length > 1)
-          robot.logger.info "PARSED_SENTENCE_LENGTH - #{parsedSentence.length}"
-          for tag in tags
-            robot.logger.info "TAG_SEARCHING #{msg.indexOf(tag)}"
-            if(msg.indexOf(tag) >= 0)
-              formattedTag = tag.replace(/%20/g, "%20")
-              robot.logger.info "TAG_FOUND #{formattedTag}"
-              robot.http(imgUrl + tag)
-              .get() (err, res, body) ->
-                if res.statusCode is 200
-                  robot.logger.info "#{body}"
-                  #msg.send "#{body}"
-                else
-                  tags = []
-              break
+      else if (parsedSentence.length > 1)        
+        for tag in tags
+          robot.logger.info "TAG_SEARCHING #{msg.indexOf(tag)}"
+          if(msg.indexOf(tag) >= 0)
+            formattedTag = tag.replace(/%20/g, "%20")
+            robot.logger.info "TAG_FOUND #{formattedTag}"
+            robot.http(imgUrl + tag)
+            .get() (err, res, body) ->
+              if res.statusCode is 200
+                robot.logger.info "#{body}"
+                #msg.send "#{body}"
+              else
+                tags = []
+            break
 
 #      if (body.find(word) >= 0 and ((len(words)==1 and (word in words)) or ( len(words) > 1 and (body.find(word+" ")==0) or (" "+word+" " in body) or (body.find(" "+word)==(wordsLength-len(word)-1))))):
 #                    command_name = "omu"
