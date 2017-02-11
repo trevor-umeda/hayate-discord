@@ -109,7 +109,7 @@ module.exports = (robot) ->
         for tag in tags
           sentenceString = msg.match[0].trim()
           if(sentenceString.indexOf(tag) >= 0)
-            if(sentenceString.indexOf(tag) == 0 or sentenceString.indexOf(" " + tag) == (sentenceString.length - sentenceString.length - 1) or sentenceString.indexOf(" " + tag + " ") > 0)
+            if(sentenceString.indexOf(tag) == 0 or sentenceString.indexOf(" " + tag) == (sentenceString.length - tag.length - 1) or sentenceString.indexOf(" " + tag + " ") > 0)
               formattedTag = tag.replace(/%20/g, "%20")
               robot.http(imgUrl + tag)
               .get() (err, res, body) ->
