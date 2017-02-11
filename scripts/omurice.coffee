@@ -107,16 +107,18 @@ module.exports = (robot) ->
               tags = []
       else if (parsedSentence.length > 1)
         for tag in tags
-          if(msg.match[0].trim().indexOf(tag) == 0 or msg.match[0].trim().indexOf(" " + tag) == (msg.match[0].trim().length - tag.length) or msg.match[0].trim().indexOf(" " + tag + " ") > 0)
-            formattedTag = tag.replace(/%20/g, "%20")
-            robot.http(imgUrl + tag)
-            .get() (err, res, body) ->
-              if res.statusCode is 200
-                robot.logger.info "#{tag} - #{body}"
-                msg.send "#{body}"
-              else
-                tags = []
-            break
+          sentenceString = msg.match[0].trim()
+          if(sentenceString.indexOf(tag) >= 0)
+            if(sentenceString.indexOf(tag) == 0 or sentenceString.indexOf(" " + tag) == (sentenceString.length - sentenceString.length) or sentenceString.indexOf(" " + tag + " ") > 0)
+              formattedTag = tag.replace(/%20/g, "%20")
+              robot.http(imgUrl + tag)
+              .get() (err, res, body) ->
+                if res.statusCode is 200
+                  robot.logger.info "#{tag} - #{body}"
+                  msg.send "#{body}"
+                else
+                  tags = []
+              break
 
 #      if (body.find(word) >= 0 and ((len(words)==1 and (word in words)) or ( len(words) > 1 and (body.find(word+" ")==0) or (" "+word+" " in body) or (body.find(" "+word)==(wordsLength-len(word)-1))))):
 #                    command_name = "omu"
