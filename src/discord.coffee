@@ -51,7 +51,7 @@ class DiscordBot extends Adapter
 
         #post-connect actions
         @rooms[channel.id] = channel for channel in @client.channels
-        @client.user.setStatus('online', currentlyPlaying)
+        @client.user.setStatus('online', 'Gaining Sentience')
           .then(@robot.logger.debug("Status set to #{currentlyPlaying}"))
           .catch(@robot.logger.error)
 
@@ -117,7 +117,7 @@ class DiscordBot extends Adapter
           else
             robot.logger.debug "Can't send message to #{channel.name}, permission denied"
             if(process.env.HUBOT_OWNER)
-              owner = robot.client.users.get(process.env.HUBOT_OWNER)  
+              owner = robot.client.users.get(process.env.HUBOT_OWNER)
               owner.sendMessage("Couldn't send message to #{channel.name} (#{channel}) in #{channel.guild.name}, contact #{channel.guild.owner} to check permissions")
                 .then (msg) ->
                   robot.logger.debug "SUCCESS! Message sent to: #{owner.id}"
