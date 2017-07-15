@@ -47,6 +47,7 @@ class DiscordBot extends Adapter
         @robot.logger.info "Logged in: #{@client.user.username}##{@client.user.discriminator}"
         @robot.name = @client.user.username
         @robot.logger.info "Robot Name: #{@robot.name}"
+        @robot.logger.info "Loading discord test"
         @emit "connected"
 
         #post-connect actions
