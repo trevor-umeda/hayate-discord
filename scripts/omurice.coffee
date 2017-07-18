@@ -59,7 +59,7 @@ module.exports = (robot) ->
     role = _.find robot.adapter.client.servers[0].roles, (role) -> role.name == roleName
     sender = _.find robot.adapter.client.servers[0].members, (user) -> user.username == userName
     robot.adapter.client.addMemberToRole(sender, role)
-    @robot.logger.info "Adding role #{role.name} to #{sender.name}. Thankyou for contributing"
+    robot.logger.info "Adding role #{role.name} to #{sender.name}. Thankyou for contributing"
 
   queryFrom = (msg, matchNumber = 0) ->
     if msg.match[matchNumber]?
