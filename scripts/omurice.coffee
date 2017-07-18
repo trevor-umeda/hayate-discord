@@ -163,7 +163,8 @@ module.exports = (robot) ->
       msg.send m + '.'
 
   robot.hear /reload tags$/i, (msg) ->
-    #@robot.logger.info robot.adapter.client.servers[0].roles   
+    #@robot.logger.info robot.adapter.client.servers[0].roles
+    server = _.find robot.adapter.client.servers, (server) -> server.name == 'Barnes Theater'
     role = _.find robot.adapter.client.servers[0].roles, (role) -> role.name == "Contributor"
     sender = _.find robot.adapter.client.servers[0].members, (user) -> user.username == msg.message.user.name
     robot.adapter.client.addMemberToRole(sender, role)
