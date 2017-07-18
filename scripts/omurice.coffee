@@ -56,8 +56,8 @@ module.exports = (robot) ->
 
   addRole = (roleName, userName) ->
     server = _.find robot.adapter.client.servers, (server) -> server.name == 'Barnes Theater'
-    role = _.find robot.adapter.client.servers[0].roles, (role) -> role.name == roleName
-    sender = _.find robot.adapter.client.servers[0].members, (user) -> user.username == userName
+    role = _.find server.roles, (role) -> role.name == roleName
+    sender = _.find server.members, (user) -> user.username == userName
     robot.adapter.client.addMemberToRole(sender, role)
     robot.logger.info "Adding role #{role.name} to #{sender.name}. Thankyou for contributing"
 
