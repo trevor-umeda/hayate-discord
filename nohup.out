@@ -1,0 +1,7 @@
+[Sun Mar 26 2017 00:02:56 GMT+0000 (UTC)] INFO Logged in: HayateBot
+[Sun Mar 26 2017 00:02:56 GMT+0000 (UTC)] INFO Robot Name: hayatebot
+[Sun Mar 26 2017 00:02:56 GMT+0000 (UTC)] WARNING Loading scripts from hubot-scripts.json is deprecated and will be removed in 3.0 (https://github.com/github/hubot-scripts/issues/1113) in favor of packages for each script.
+
+Your hubot-scripts.json is empty, so you just need to remove it.
+[Sun Mar 26 2017 00:02:56 GMT+0000 (UTC)] ERROR hubot-heroku-alive included, but missing HUBOT_HEROKU_KEEPALIVE_URL. `heroku config:set HUBOT_HEROKU_KEEPALIVE_URL=$(heroku apps:info -s  | grep web-url | cut -d= -f2)`
+[Sun Mar 26 2017 00:02:56 GMT+0000 (UTC)] INFO hubot-redis-brain: Using default redis on localhost:6379

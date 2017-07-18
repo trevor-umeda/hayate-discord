@@ -163,6 +163,13 @@ module.exports = (robot) ->
       msg.send m + '.'
 
   robot.hear /reload tags$/i, (msg) ->
+    #@robot.logger.info robot.adapter.client.servers[0].roles   
+    role = _.find robot.adapter.client.servers[0].roles, (role) -> role.name == "Contributor"
+    sender = _.find robot.adapter.client.servers[0].members, (user) -> user.username == msg.message.user.name
+    robot.adapter.client.addMemberToRole(sender, role)
+    #@robot.logger.info robot.adapter.client.servers[0].detailsOfUser(sender)
+    #@robot.logger.info role
+    #@robot.logger.info msg.message.user
     reloadThen (err) ->
       if err?
         msg.send "Oh, snap! Something blew up."
