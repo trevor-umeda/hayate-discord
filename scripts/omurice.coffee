@@ -174,13 +174,17 @@ module.exports = (robot) ->
         m += " about that"
 
       msg.send m + '.'
+
   robot.hear /^(?=.*?ben)(?=.*?love live)(?=.*?church).*$/, (msg) ->
-    addRole "Idol Thief", msg.message.user.name
-    server = _.find robot.adapter.client.servers, (server) -> server.name == 'Barnes Theater'    
+    server = _.find robot.adapter.client.servers, (server) -> server.name == 'Barnes Theater'
     sender = _.find server.members, (user) -> user.username == msg.message.user.name
-    channel = _.find server.channels, (channel) -> channel.name == 'palace'
-    robot.adapter.client.sendMessage channel, sender + " Welcome..."
-    robot.adapter.client.sendMessage channel, "..Bzt.."
+    role = _.find server.roles, (role) -> role.name == "Idol Thief"
+    if !robot.adapter.client.memberHasRole(sender, role)
+      addRole "Idol Thief", msg.message.user.name
+      channel = _.find server.channels, (channel) -> channel.name == 'palace'
+      robot.adapter.client.sendMessage channel, sender + " Welcome..."
+      robot.adapter.client.sendMessage channel, "..Bzt.."
+
   robot.hear /reload tags$/i, (msg) ->
     #@robot.logger.info robot.adapter.client.servers[0].roles
     addRole "Contributor", msg.message.user.name
