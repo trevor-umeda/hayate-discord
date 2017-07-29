@@ -61,6 +61,10 @@ module.exports = (robot) ->
     robot.adapter.client.addMemberToRole(sender, role)
     robot.logger.info "Adding role #{role.name} to #{sender.name}. Thankyou for contributing"
 
+  sleep = (ms) ->
+    start = new Date().getTime()
+    continue while new Date().getTime() - start < ms
+
   queryFrom = (msg, matchNumber = 0) ->
     if msg.match[matchNumber]?
       words = msg.match[matchNumber].trim().split /\s+/
@@ -181,6 +185,7 @@ module.exports = (robot) ->
     role = _.find server.roles, (role) -> role.name == "Idol Thief"
     if !robot.adapter.client.memberHasRole(sender, role)
       addRole "Idol Thief", msg.message.user.name
+      sleep 1000
       channel = _.find server.channels, (channel) -> channel.name == 'palace'
       robot.adapter.client.sendMessage channel, sender + " Welcome..."
       robot.adapter.client.sendMessage channel, "..Bzt.."
