@@ -100,11 +100,14 @@ module.exports = (robot) ->
 
   robot.hear /.*/i, (msg) ->
     parsedSentence = queryFrom msg
-
+    #We will only do this on a short sentence
     if parsedSentence.length <= 5
+      #If the sentence is one word, our job is easy
       if (parsedSentence.length == 1)
+        #Find the intersection: find what tags were in the sentence
         foundTags = _.intersection(parsedSentence, tags);
         if foundTags.length > 0
+          #Get a random image to post and then post it
           robot.http(imgUrl + foundTags[0])
           .get() (err, res, body) ->
             if res.statusCode is 200
@@ -113,11 +116,14 @@ module.exports = (robot) ->
             else
               tags = []
       else if (parsedSentence.length > 1)
+        #For ever tag, see if it is in the sentence
         for tag in tags
           sentenceString = msg.match[0].trim()
           if(sentenceString.indexOf(tag) >= 0)
             if(sentenceString.indexOf(tag + " ") == 0 or sentenceString.indexOf(" " + tag) == (sentenceString.length - tag.length - 1) or sentenceString.indexOf(" " + tag + " ") > 0)
+              #Do a ghetto uri encoding of the tag
               formattedTag = tag.replace(/%20/g, "%20")
+              #Get a random image from server and post it!
               robot.http(imgUrl + tag)
               .get() (err, res, body) ->
                 if res.statusCode is 200
