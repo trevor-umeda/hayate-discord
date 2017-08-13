@@ -184,12 +184,12 @@ module.exports = (robot) ->
     sender = _.find server.members, (user) -> user.username == msg.message.user.name
     role = _.find server.roles, (role) -> role.name == "Idol Thief"
     if !robot.adapter.client.memberHasRole(sender, role)
-      addRole "Idol Thief", msg.message.user.name
+      #addRole "Idol Thief", msg.message.user.name
       channel = _.find server.channels, (channel) -> channel.name == 'palace'
       sleep 2000
-      robot.logger.info "Sending welcome message"
-      robot.adapter.client.sendMessage channel, sender + " Welcome..."
-      robot.adapter.client.sendMessage channel, "..Bzt.."
+      #robot.logger.info "Sending welcome message"
+      #robot.adapter.client.sendMessage channel, sender + " Welcome..."
+      #robot.adapter.client.sendMessage channel, "..Bzt.."
 
   robot.hear /reload tags$/i, (msg) ->
     #@robot.logger.info robot.adapter.client.servers[0].roles
