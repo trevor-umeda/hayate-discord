@@ -1,6 +1,6 @@
-# hayatebot
+# DEPRECATED. I HAVE SINCE MOVED TO DISCORD.JS. It works a little better than using hubot
 
-DEPRECATED. I HAVE SINCE MOVED TO DISCORD.JS. It works a little better than using hubot
+## Hayate bot using hubot
 [Hayte on discord](https://github.com/trevor-umeda/hayate)
 
 hayatebot is a chat bot built on the [Hubot][hubot] framework. It was
